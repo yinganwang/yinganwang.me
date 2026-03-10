@@ -14,8 +14,9 @@ const specialElite = Special_Elite({
 });
 
 export const metadata: Metadata = {
-  title: "Personal Cards",
-  description: "A minimal, collectible card-style personal site.",
+  title: "Yingan Wang",
+  description:
+    "A minimal, collectible card-style personal site for Yingan Wang.",
 };
 
 export default function RootLayout({
