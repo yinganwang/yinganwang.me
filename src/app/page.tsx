@@ -44,8 +44,8 @@ export default function Home() {
         </>
       ),
       meta: [
-        "Passionate about building from 0 → 1.",
-        "Founding engineer at 3 startups backed by a16z, Sequoia, and Greylock.",
+        "Passionate about building from 0 → 1",
+        "Founding engineer at 3 startups backed by a16z, Sequoia, and Greylock",
         "Alum of Berkeley EECS and UIUC CS",
         "Based in Berkeley, CA",
       ],
@@ -357,8 +357,8 @@ export default function Home() {
                   <div className="relative mt-auto flex items-center justify-between text-xs uppercase tracking-[0.35em] text-[color:var(--muted-ink)]">
                     <span></span>
                     {card.title === "Projects" && (
-                      <span className="rounded-full border border-[color:var(--line)] px-2 py-1">
-                        Flip
+                      <span className="rounded-full border border-[color:var(--line)] px-2 py-1 cursor-pointer">
+                        Click for more
                       </span>
                     )}
                   </div>
@@ -473,8 +473,10 @@ export default function Home() {
                 role="dialog"
                 aria-modal="true"
                 aria-label="Projects"
-                className={`card relative flex max-h-[86vh] flex-col gap-6 overflow-hidden rounded-[32px] px-8 py-10 transition-transform duration-200 ${
-                  projectsClosing ? "scale-95" : "scale-100"
+                className={`card relative flex max-h-[86vh] flex-col gap-4 overflow-hidden rounded-[32px] px-8 py-10 origin-top ${
+                  projectsClosing
+                    ? "[transform:perspective(1200px)_rotateX(10deg)_scale(0.9)] transition-transform duration-200"
+                    : "animate-project-open"
                 }`}
               >
                 <button
@@ -492,7 +494,7 @@ export default function Home() {
                   <h2 className="text-3xl">Project Details</h2>
                 </div>
 
-                <div className="grid gap-5 overflow-auto pr-1 sm:grid-cols-2">
+                <div className="scrollbar-thin grid gap-5 overflow-auto p-2 sm:grid-cols-2">
                   {projects.map((project, projectIndex) => {
                     const media = project.media?.length
                       ? project.media
