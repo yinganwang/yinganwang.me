@@ -1,12 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function Home() {
   const [projectsOpen, setProjectsOpen] = useState(false);
   const [projectsClosing, setProjectsClosing] = useState(false);
-  const mapRef = useRef<HTMLDivElement | null>(null);
   const [carouselIndex, setCarouselIndex] = useState<number[]>([]);
   const [landingCarouselIndex, setLandingCarouselIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -32,95 +31,6 @@ export default function Home() {
       audio.pause();
     }
   };
-
-  // useEffect(() => {
-  //   const googleMapsApiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
-
-  //   if (!mapRef.current) {
-  //     return;
-  //   }
-
-  //   const existingScript = document.querySelector<HTMLScriptElement>(
-  //     "script[data-google-maps]",
-  //   );
-
-  //   const initMap = () => {
-  //     if (!mapRef.current || !window.google?.maps) return;
-
-  //     const map = new window.google.maps.Map(mapRef.current, {
-  //       center: { lat: 20, lng: 0 },
-  //       zoom: 2,
-  //       disableDefaultUI: true,
-  //       gestureHandling: "cooperative",
-  //       styles: [
-  //         {
-  //           featureType: "all",
-  //           elementType: "geometry",
-  //           stylers: [{ color: "#f6f2ea" }],
-  //         },
-  //         {
-  //           featureType: "water",
-  //           elementType: "geometry",
-  //           stylers: [{ color: "#d8e7f2" }],
-  //         },
-  //         {
-  //           featureType: "road",
-  //           elementType: "labels",
-  //           stylers: [{ visibility: "off" }],
-  //         },
-  //         {
-  //           featureType: "poi",
-  //           elementType: "labels",
-  //           stylers: [{ visibility: "off" }],
-  //         },
-  //       ],
-  //     });
-
-  //     const pins = [
-  //       { name: "Uzbekistan", position: { lat: 41.2995, lng: 69.2401 } },
-  //       { name: "Turkey", position: { lat: 39.9334, lng: 32.8597 } },
-  //       { name: "Brazil", position: { lat: -15.7939, lng: -47.8828 } },
-  //       { name: "Mexico", position: { lat: 19.4326, lng: -99.1332 } },
-  //       { name: "Barbados", position: { lat: 13.0975, lng: -59.6167 } },
-  //       { name: "Canada", position: { lat: 45.4215, lng: -75.6972 } },
-  //       { name: "USA", position: { lat: 38.9072, lng: -77.0369 } },
-  //       { name: "China", position: { lat: 39.9042, lng: 116.4074 } },
-  //       { name: "Japan", position: { lat: 35.6762, lng: 139.6503 } },
-  //       { name: "Korea", position: { lat: 37.5665, lng: 126.978 } },
-  //       { name: "Taiwan", position: { lat: 25.033, lng: 121.5654 } },
-  //       { name: "Hong Kong", position: { lat: 22.3193, lng: 114.1694 } },
-  //       { name: "Qatar", position: { lat: 25.2854, lng: 51.531 } },
-  //       { name: "UAE", position: { lat: 24.4539, lng: 54.3773 } },
-  //     ];
-
-  //     pins.forEach((pin) => {
-  //       new window.google.maps.Marker({
-  //         position: pin.position,
-  //         map,
-  //         title: pin.name,
-  //       });
-  //     });
-  //   };
-
-  //   if (existingScript) {
-  //     existingScript.addEventListener("load", initMap);
-  //     if (existingScript.getAttribute("data-loaded") === "true") {
-  //       initMap();
-  //     }
-  //     return;
-  //   }
-
-  //   const script = document.createElement("script");
-  //   script.src = `https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}`;
-  //   script.async = true;
-  //   script.defer = true;
-  //   script.setAttribute("data-google-maps", "true");
-  //   script.addEventListener("load", () => {
-  //     script.setAttribute("data-loaded", "true");
-  //     initMap();
-  //   });
-  //   document.head.appendChild(script);
-  // }, []);
 
   const cards = [
     {
@@ -182,73 +92,76 @@ export default function Home() {
   const year = now.getFullYear();
   const month = String(now.getMonth() + 1).padStart(2, "0"); // getMonth() is 0-indexed
 
-  const projects = [
-    {
-      title: "Curio",
-      description:
-        "Turn scattered thoughts into organized notes and actionable tasks, just by speaking with Curio.\nMore exciting features to come!",
-      keywords: ["Voice AI", "Prototype"],
-      features: [
-        "Smooth conversation with minimal lag",
-        "Real-time RAG and web search for accurate responses",
-        "Save convesation summary seamlessly to Notion or Obsedian",
-        "Explore topics based on embeddings from past conversations",
-      ],
-      screenshot: "/assets/knowledge-graph-viz.gif",
-      media: ["/assets/knowledge-graph-viz.gif"],
-      links: [
-        {
-          href: "https://youtu.be/h-W0l9oZV2E",
-          type: "youtube",
-          label: "Curio demo video",
-        },
-      ],
-    },
-    {
-      title: "PandaX Notebook",
-      description:
-        "A multi-agent code rewrite system with agentic memory to optimize Python Pandas code, making data workflows faster and more efficient on GPU and CPU. Built on Jupyter Lab and Jupyter UI. More exciting features to come!",
-      notes:
-        "Advisors: Alvin Cheung, Sanjit Seshia, Sky Computing Lab, UC Berkeley.",
-      keywords: [
-        "Research",
-        "LLM",
-        "Agent memory",
-        "Code Generation",
-        "Open source",
-        "Jupyter",
-      ],
-      screenshot: "/assets/pandax-demo.gif",
-      media: ["/assets/pandax-demo.gif"],
-      links: [
-        {
-          href: "https://youtu.be/O4_cakgj8aw",
-          type: "youtube",
-          label: "PandaX demo video",
-        },
-        {
-          href: "https://github.com/yinganw/pandax-jupyter-notebook",
-          type: "github",
-          label: "PandaX Notebook Frontend source code",
-        },
-      ],
-    },
-    {
-      title: "TexSense",
-      description:
-        "A browser extension that counts words in LaTeX as you type on Overleaf. Try it on Chrome or Firefox to boost your writing productivity!",
-      keywords: ["Open Source", "Productivity"],
-      screenshot: "/assets/texsense-demo.gif",
-      media: ["/assets/texsense-demo.gif"],
-      links: [
-        {
-          href: "https://github.com/yinganwang/texSense",
-          type: "github",
-          label: "TexSense source code",
-        },
-      ],
-    },
-  ];
+  const projects = useMemo(
+    () => [
+      {
+        title: "Curio",
+        description:
+          "Turn scattered thoughts into organized notes and actionable tasks, just by speaking with Curio.\nMore exciting features to come!",
+        keywords: ["Voice AI", "Prototype"],
+        features: [
+          "Smooth conversation with minimal lag",
+          "Real-time RAG and web search for accurate responses",
+          "Save convesation summary seamlessly to Notion or Obsedian",
+          "Explore topics based on embeddings from past conversations",
+        ],
+        screenshot: "/assets/knowledge-graph-viz.gif",
+        media: ["/assets/knowledge-graph-viz.gif"],
+        links: [
+          {
+            href: "https://youtu.be/h-W0l9oZV2E",
+            type: "youtube",
+            label: "Curio demo video",
+          },
+        ],
+      },
+      {
+        title: "PandaX Notebook",
+        description:
+          "A multi-agent code rewrite system with agentic memory to optimize Python Pandas code, making data workflows faster and more efficient on GPU and CPU. Built on Jupyter Lab and Jupyter UI. More exciting features to come!",
+        notes:
+          "Advisors: Alvin Cheung, Sanjit Seshia, Sky Computing Lab, UC Berkeley.",
+        keywords: [
+          "Research",
+          "LLM",
+          "Agent memory",
+          "Code Generation",
+          "Open source",
+          "Jupyter",
+        ],
+        screenshot: "/assets/pandax-demo.gif",
+        media: ["/assets/pandax-demo.gif"],
+        links: [
+          {
+            href: "https://youtu.be/O4_cakgj8aw",
+            type: "youtube",
+            label: "PandaX demo video",
+          },
+          {
+            href: "https://github.com/yinganw/pandax-jupyter-notebook",
+            type: "github",
+            label: "PandaX Notebook Frontend source code",
+          },
+        ],
+      },
+      {
+        title: "TexSense",
+        description:
+          "A browser extension that counts words in LaTeX as you type on Overleaf. Try it on Chrome or Firefox to boost your writing productivity!",
+        keywords: ["Open Source", "Productivity"],
+        screenshot: "/assets/texsense-demo.gif",
+        media: ["/assets/texsense-demo.gif"],
+        links: [
+          {
+            href: "https://github.com/yinganwang/texSense",
+            type: "github",
+            label: "TexSense source code",
+          },
+        ],
+      },
+    ],
+    [],
+  );
 
   const landingMedia = projects.flatMap((project) =>
     project.media?.length
